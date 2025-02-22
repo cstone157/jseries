@@ -32,5 +32,8 @@ RUN export DATABASE_URL=postgres://postgres@postgres-svc:5432/ragdemo
 RUN export PGPASSWORD=password
 RUN export OLLAMA_HOST=localhost:11434
 
+## How to add a document to ragdemo
+#go run main.go -insert doc_milstd_6061g
 ## How to actually ask questions of the ragdemo
 #go run main.go -query "What was the verdict of McCarthy's inquest?"
+COPY doc-5-header /ragdemo/doc-5-header
