@@ -1,3 +1,6 @@
 #!/bin/bash
 
-echo "TEST"
+source ./scripts/build.sh
+
+images_function build
+

@@ -22,8 +22,8 @@ RUN go build
 
 ## Update enviroment variables
 RUN echo 'export GOROOT=/usr/local/go' >> ~/.profile
-RUN echo 'export GOPATH=$HOME/go' >> ~/.profile
-RUN echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.profile
+RUN echo 'export GOPATH=C:\Users\c.stone/go' >> ~/.profile
+RUN echo 'export PATH=/bin:/bin:C:\Users\c.stone\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\c.stone\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn;C:\Program Files\Kubernetes\Minikube;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Docker\Docker\resources\bin;C:\Users\c.stone\.cargo\bin;C:\Users\c.stone\.local\bin;C:\Users\c.stone\AppData\Local\Programs\Python\Launcher;C:\Users\c.stone\AppData\Local\Microsoft\WindowsApps;C:\Users\c.stone\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\c.stone\.dotnet\tools;C:\Users\c.stone\AppData\Roaming\npm;C:\Users\c.stone\AppData\Local\GitHubDesktop\bin;C:\Users\c.stone\Desktop\805_projects\scaffold;C:\Users\c.stone\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl' >> ~/.profile
 RUN . ~/.profile
 
 ## Connection information to our database
