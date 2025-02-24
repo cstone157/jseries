@@ -88,6 +88,8 @@ function images_function {
         envsubst < "$ollama_docker_image_folder/$ollama_docker_image_template" > "$ollama_docker_image_folder/Dockerfile"
         docker build "$ollama_docker_image_folder/" -t localhost:$registry_port/$ollama_docker_image_name
 
+        ## Delete the temporary dockerfiles
+        rm "$ollama_docker_image_folder/Dockerfile"
     else
         images_error
         exit 0
