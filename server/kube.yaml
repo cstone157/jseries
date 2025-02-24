@@ -47,13 +47,8 @@ spec:
   - ReadWriteOnce
   capacity:
     storage: 25Gi
-  #hostPath:
-  #  path: ./postgres/data
-  #  type: Directory
-  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   local:
-#    path: C:\Users\c.stone\Desktop\805_projects\jseries\server\postgres\data
     path: /run/desktop/mnt/host/c/Users/c.stone/Desktop/805_projects/jseries/server/postgres/data
   nodeAffinity:
     required:
@@ -95,7 +90,7 @@ metadata:
 spec:
   containers:
     - name: postgres
-      image: postgres:17.3
+      image: localhost:5000/postgres
       imagePullPolicy: IfNotPresent
       resources:
         requests:
@@ -199,7 +194,8 @@ metadata:
 spec:
   containers:
   - name: ollama
-    image: ollama/ollama:0.5.11
+    # image: ollama/ollama:0.5.11
+    image: localhost:5000/ollama
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -228,174 +224,3 @@ spec:
   selector:
     app: ollama
   type: NodePort
-
-
-
-
-
-## Start Translated =========================================================
-# #Generated using the tool https://8gwifi.org/kube1.jsp
-# #Total Number of Services Found 3
-
-# #Generating kubernetes YAML file for the Service ollama.yml
-# #This is Service Configuration Kube definition
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: service.name.7
-#   namespace: default
-# spec:
-#   ports:
-#   - name: nameme_01
-#     port: 11434
-#     protocol: tcp
-#     targetPort: 11434
-#   selector:
-#     app: demo.93
-#   type: NodePort
-
-# #This is Pod Configuration Kube definition
-# ---
-# kind: Pod
-# metadata:
-#   labels:
-#     app: demo.93
-#   namespace: default
-# spec:
-#   containers:
-#   - image: ollama/ollama:0.5.11
-#     imagePullPolicy: IfNotPresent
-#     name: ollama
-#     ports:
-#     - containerPort: 11434
-#       name: portname.0
-#       protocol: tcp
-#   terminationGracePeriodSeconds: 0
-
-## Start Translated =========================================================
-# #Generating kubernetes YAML file for the Service postgres.yml
-# #This is Service Configuration Kube definition
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: service.name.0
-#   namespace: default
-# spec:
-#   ports:
-#   - name: nameme_01
-#     port: 5432
-#     protocol: tcp
-#     targetPort: 5432
-#   selector:
-#     app: demo.94
-#   type: NodePort
-
-# #This is Pod Configuration Kube definition
-# ---
-# kind: Pod
-# metadata:
-#   labels:
-#     app: demo.94
-#   namespace: default
-# spec:
-#   containers:
-#   - env:
-#     - name: POSTGRES_USER
-#       value: postgres
-#     - name: POSTGRES_PASSWORD
-#       value: password
-#     - name: POSTGRES_DB
-#       value: postgres
-#     image: postgres:17.3
-#     imagePullPolicy: IfNotPresent
-#     name: pg_container
-#     ports:
-#     - containerPort: 5432
-#       name: portname.0
-#       protocol: tcp
-#     volumeMounts:
-#     - mountPath: /var/lib/postgresql/data
-#       name: pvo.0
-#   terminationGracePeriodSeconds: 0
-#   volumes:
-#   - name: pvo.0
-#     persistentVolumeClaim:
-#       claimName: claimname.0
-
-# #This is PersistentVolume Kube Object with Name
-# #pvo.0.yml
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: pvo.0
-#   namespace: default
-# spec:
-#   accessModes:
-#   - ReadWriteOnce
-#   capacity:
-#     storage: 10Gi
-#   hostPath:
-#     path: postgres_db
-#     type: Directory
-#   persistentVolumeReclaimPolicy: Retain
-
-# #This is PersistentVolumeClaim Kube Object with Name
-# #claimname.0.yml
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: claimname.0
-#   namespace: default
-# spec:
-#   accessModes:
-#   - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 1Gi
-#   volumeName: pvo.0
-
-# #Generating kubernetes YAML file for the Service pgadmin.yml
-# #This is Service Configuration Kube definition
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: service.name.6
-#   namespace: default
-# spec:
-#   ports:
-#   - name: nameme_01
-#     port: 3001
-#     protocol: tcp
-#     targetPort: 3001
-#   selector:
-#     app: demo.74
-#   type: NodePort
-
-# #This is Pod Configuration Kube definition
-# ---
-# kind: Pod
-# metadata:
-#   labels:
-#     app: demo.74
-#   namespace: default
-# spec:
-#   containers:
-#   - env:
-#     - name: PGADMIN_DEFAULT_EMAIL
-#       value: user@user.org
-#     - name: PGADMIN_DEFAULT_PASSWORD
-#       value: password
-#     image: dpage/pgadmin4:9.0.0
-#     imagePullPolicy: IfNotPresent
-#     name: pg_admin
-#     ports:
-#     - containerPort: 80
-#       name: portname.0
-#       protocol: tcp
-#   terminationGracePeriodSeconds: 0
-## End Translated ===========================================================
