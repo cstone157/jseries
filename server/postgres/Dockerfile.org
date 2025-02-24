@@ -1,0 +1,9 @@
+FROM postgres:17.3
+## What was our command to start the docker container
+##$ docker run -d -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres postgres:17.3
+
+RUN apt update && apt upgrade -y && apt install -y
+## Install pgvector
+RUN apt install -y postgresql-17-pgvector
+
+COPY ./scripts/*.sql /docker-entrypoint-initdb.d/*.sql
