@@ -84,16 +84,36 @@ function images_function {
         registry_function build
         printf "Attempting to build docker images:"
 
-        touch "$ollama_docker_image_folder/Dockerfile"
-        envsubst < "$ollama_docker_image_folder/$ollama_docker_image_template" > "$ollama_docker_image_folder/Dockerfile"
-        docker build "$ollama_docker_image_folder/" -t localhost:$registry_port/$ollama_docker_image_name
+        ## Build the ollama docker image and add to the registry
+        #touch "$ollama_docker_image_folder/Dockerfile"
+        #envsubst < "$ollama_docker_image_folder/$ollama_docker_image_template" > "$ollama_docker_image_folder/Dockerfile"
+        #docker build "$ollama_docker_image_folder/" -t localhost:$registry_port/$ollama_docker_image_name
+        build_image_registry $ollama_docker_image_folder $ollama_docker_image_template $ollama_docker_image_name $registry_port
+
+        ## Build the postgres docker image and add to the registry
+        #touch "$postgres_docker_image_folder/Dockerfile"
+        #envsubst < "$postgres_docker_image_folder/$postgres_docker_image_template" > "$postgres_docker_image_folder/Dockerfile"
+        #docker build "$postgres_docker_image_folder/" -t localhost:$registry_port/$postgres_docker_image_name
+        build_image_registry $postgres_docker_image_folder $postgres_docker_image_template $postgres_docker_image_name $registry_port
 
         ## Delete the temporary dockerfiles
-        rm "$ollama_docker_image_folder/Dockerfile"
+        #rm "$ollama_docker_image_folder/Dockerfile"
+        #rm "$postgres_docker_image_folder/Dockerfile"
     else
         images_error
         exit 0
     fi
+}
+function build_image_registry {
+    ## Build and load an image to the registry
+    ##      $1 = docker image folder path
+    ##      $2 = docker image image template
+    ##      $3 = docker image name
+    ##      $4 = registry port
+    touch "$1/Dockerfile"
+    envsubst < "$1/$2" > "$1/Dockerfile"
+    docker build "$1/" -t localhost:$4/$3
+    rm "$1/Dockerfile"
 }
 function images_error {
     printf "When using the images_error function, you need to 'clean' or 'build'"
