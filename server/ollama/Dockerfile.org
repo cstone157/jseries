@@ -1,15 +1,10 @@
 FROM ollama/ollama:0.5.11
-## docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-##RUN ollama pull llama3
-
 
 ## Copy over our start.sh
 COPY start.sh /start.sh
 
-## TO-DO: delete me, shouldn't be necissary after we get this up and running
+## TO-DO: remove the curl, we don't really need it (I just want it for testing)
 RUN apt update && apt install
-#RUN apt install -y git
-#RUN apt install -y wget
 RUN apt install -y curl git wget
 
 ## Manually install golang-go, but we need to make sure we use a version higher that 18
@@ -21,22 +16,17 @@ RUN tar -C /usr/local -xzf go1.22.0.linux-amd64.tar.gz
 RUN echo 'export GOROOT=/usr/local/go' >> ~/.profile
 RUN echo 'export GOPATH=$HOME/go' >> ~/.profile
 RUN echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.profile
-RUN . ~/.profile
-
 ## Connection information to our database
-RUN export DATABASE_URL=postgres:///ragdemo?host=postgres-svc
-RUN export DATABASE_URL=postgres://postgres@postgres-svc:5432/ragdemo
-RUN export PGPASSWORD=password
-RUN export OLLAMA_HOST=localhost:11434
+RUN echo 'export DATABASE_URL=postgres:///ragdemo?host=postgres-svc' >> ~/.profile
+RUN echo 'export DATABASE_URL=postgres://postgres@postgres-svc:5432/ragdemo' >> ~/.profile
+RUN echo 'export PGPASSWORD=password' >> ~/.profile
+## What is the connection to the ollama host
+RUN echo 'export OLLAMA_HOST=localhost:11434' >> ~/.profile
+RUN . ~/.profile
 
 ## TO-DO: code for the rag demo (pgdash.io)
 WORKDIR /
 RUN git clone https://github.com/rapidloop/ragdemo.git
-##WORKDIR /ragdemo
-##RUN go build
-##$ ollama pull llama3
 
-
-#CMD ["start.sh"]
-#CMD ["ls"]
+## Change the entrypoint to my startup script
 ENTRYPOINT ["./start.sh"]

@@ -1,0 +1,946 @@
+SECTION 5 - DETAILED REQUIREMENTS FOR LINK 16
+5. DETAILED REQUIREMENTS FOR LINK 16
+5.1 DESCRIPTION OF J-SERIES MESSAGES
+5.1.1 This section describes the Link 16 fixed format message construction and provides word applicability tables, message summaries, word maps, word descriptions, word notes, field coding, transmit tables, and receive tables for the Link 16 messages.
+5.1.2 Paragraph 5.2 through Paragraph 5.9, contained herein, define the requirements for the Link 16 header, initial word, extension word, and continuation word. Included are the requirements for message construction and formats, message and word numbering conventions, coding conventions, and message priority.
+5.1.3 Paragraph 5.11, contained in six separate volumes (parts), presents the detailed requirements for each Link 16 message and word.
+
+5.2  HEADER WORD 
+ 
+5.2.1  At the start of each time slot, a 35 bit header is transmitted.  The header is then followed by one or more messages.  The header is not a part of the message structure, but the information contained in it applies to all messages within the time slot.  The header contains the Time Slot Type, Relayed Transmission Indicator, Type Modification, SDU Serial Number and the Source TN fields.  The SDU Serial Number field is supplied by the transmitting terminal.  The Source TN field is supplied by the host system identifying the originator of the message in the time slot.  The Header format is shown in Figure 5.2- 1.
+
+
+WORD MAP
+--------
+ WORD NUMBER: HEADER
+ WORD TITLE: LINK 16 HEADER
+ -----------------------------------------------------------------------------------------------------------------
+ : 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19: 18 17 16 15 14 13 12 11 10 09 08 07 06 05 04: 03: 02  01  00:
+ -----------------------------------------------------------------------------------------------------------------
+ :                                                :                                             :RI : TIME SLOT :
+ :          SECURE DATA UNIT SERIAL NUMBER        : TRACK NUMBER, SOURCE                        :---:   TYPE    :
+ :                                                :                                             :TM :           :
+ -----------------------------------------------------------------------------------------------------------------
+ :                      16                        : 15                                          : 1 :     3     :
+ -----------------------------------------------------------------------------------------------------------------
+FIGURE 5.2-1. J Series Header Word Format (Sheet 1 of 6)
+
+
+
+WORD DESCRIPTION
+----------------
+ WORD NUMBER: HEADER
+ WORD TITLE: LINK 16 HEADER
+ REFERENCE                                 BIT #
+       DFI/DUI   DATA FIELD DESCRIPTOR             POSITION BITS    RESOLUTION,  CODING,  ETC
+        265 002 TIME SLOT TYPE                        0-  2   3
+        273 002 RELAYED TRANSMISSION INDICATOR        3       1
+				  (RI)
+        849 002 TYPE MODIFIER (TM)                    3       1
+        769 003 TRACK NUMBER, SOURCE                  4- 18  15
+       1677 001 SECURE DATA UNIT SERIAL NUMBER       19- 34  16
+FIGURE 5.2-1. J Series Header Word Format (Sheet 2 of 6)
+
+
+
+FIELD CODING FOR HEADER (SHEET 1)
+ DFI 	DUI 	DUI/DI NAME 					DI BIT CODE 			DUI/DI EXPLANATION
+ 
+ 265 	002 	TIME SLOT TYPE 											WHEN INTERPRETED WITH THE TYPE MODIFICATION FIELD, THIS FIELD DESCRIBES THE CHARACTERISTICS OF A TIME SLOT. 
+				-------------- 
+ 
+					TYPE 0 						0 						1. WHEN THE TYPE MODIFICATION IS ZERO AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: STANDARD DOUBLE PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: UNCODED. 
+																		2. WHEN THE TYPE MODIFICATION IS ONE AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 2 SINGLE-PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: UNCODED. 
+					TYPE 1 						1 						1. WHEN THE TYPE MODIFICATION IS ZERO AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 2 DOUBLE PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: UNCODED. 
+																		2. WHEN THE TYPE MODIFICATION IS ONE AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 4 SINGLE PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: UNCODED. 
+					TYPE 2 						2 						1. WHEN THE TYPE MODIFICATION IS ZERO AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE:PACKED 2 DOUBLE PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+																		2. WHEN THE TYPE MODIFICATION IS ONE AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 4 SINGLE PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+																		3. WHEN THE TYPE MODIFICATION IS ZERO AND THE HEADER IS NOT INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: RTT. 
+																				(B) MESSAGE FORMAT: ADDRESSED. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+																		4. WHEN THE TYPE MODIFICATION IS ONE AND THE HEADER IS NOT INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: RTT. 
+																				(B) MESSAGE FORMAT: BROADCAST. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+					TYPE 3 						3 						THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 2 SINGLE PULSE. 
+																				(B) MESSAGE FORMAT: FIXED FORMAT. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+					TYPE 4 						4 						THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: STANDARD DOUBLE PULSE. 
+																				(B) MESSAGE FORMAT: FIXED FORMAT. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+					TYPE 5 						5 						THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 2 DOUBLE PULSE. 
+																				(B) MESSAGE FORMAT: FIXED FORMAT. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+					TYPE 6 						6 						1. WHEN THE TYPE MODIFICATION IS ZERO AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: STANDARD DOUBLE PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+																		2. WHEN THE TYPE MODIFICATION IS ONE AND THE HEADER IS INTERLEAVED, THE TIME SLOT HAS THE FOLLOWING STRUCTURE: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 2 SINGLE PULSE. 
+																				(B) MESSAGE FORMAT: FREE TEXT. 
+																				(C) ERROR CORRECTION CODING: CODED. 
+					TYPE 7 						7 						THE TIME SLOT HAS THE FOLLOWING CHARACTERISTICS: 
+																				(A) MESSAGE PACKAGE STRUCTURE: PACKED 4 SINGLE PULSE. 
+																				(B) MESSAGE FORMAT: FIXED FORMAT. 
+																				(C) ERROR CORRECTION CODING: CODED.
+
+ 273 	002 	RELAYED TRANSMISSION INDICATOR 							USED TO INDICATE WHETHER OR NOT A RELAYED MESSAGE 
+				------------------------------- 
+					RELAYED 
+				TIME SLOT DATA RELAYED 			1 						DATA SHOULD NOT BE USED FOR RELATIVE NAVIGATION. 
+
+ 849 	002 	TYPE MODIFICATION 										MODIFIES THE INTERPRETATION OF THE TYPE FIELD OF FREE TEXT MESSAGES (TYPES 0, 1, 2, AND 6) 
+				------------------ 
+					TYPE MODIFICATION 0 		0 						AFFECTS THE INTERPRETATION OF TIME SLOT TYPES 0, 1, 2, AND 6. 
+					TYPE MODIFICATION 1 		1 						AFFECTS THE INTERPRETATION OF TIME SLOT TYPES 0, 1, 2, AND 6. 
+
+ 769 	003 	TRACK NUMBER, SOURCE 									THE TN OF THE UNIT (I.E., JU OR PU) THAT ORIGINATED THE MESSAGE. 
+				--------------------- 
+					NO STATEMENT 				00000 (OCTAL) 
+					NUMERIC 					00001 THROUGH 00076 	ASSIGNED AS IDENTIFICATION NUMBERS FOR C2 IUS (JU, PU, FJU, AND FPU). 
+													(OCTAL) 
+					ILLEGAL 					00077 (OCTAL) 
+					NUMERIC 					00100 THROUGH 00175 	ASSIGNED AS IDENTIFICATION NUMBERS FOR C2 IUS (JU, RU, FJU, AND FRU). 
+													(OCTAL) 
+					NUMERIC 					00176 (OCTAL) 			RESERVED FOR USE AS THE PSEUDO SOURCE TRACK NUMBER ADDRESS. 
+					NUMERIC 					00177 (OCTAL) 			COLLECTIVE ADDRESS. 
+					NUMERIC 					00200 THROUGH 07776 	ASSIGNED AS IDENTIFICATION NUMBERS FOR JUS AND ALLOCATED IN BLOCKS TO C2 IUS TO BE USED FOR TACTICAL IN FORMATION REPORTING, E.G., TRACKS AND REFERENCE POINTS. 
+													(OCTAL) 
+					ILLEGAL 					07777 (OCTAL) 
+					NUMERIC 					10000 THROUGH 77776 	ASSIGNED AS IDENTIFICATION NUMBERS FOR JUS AND ALLOCATED IN BLOCKS TO C2 JUS TO BE USED FOR TACTICAL INFORMATION REPORTING. E.G., TRACKS AND REFERENCE POINTS.
+													(OCTAL) 
+					NUMERIC 					77777 (OCTAL) 			ASSIGNED AS THE NETWORK MANAGER DEDICATED ADDRESS.
+
+ 1677 	001 	SECURE DATA UNIT SERIAL NUMBER 							DATA INSERTED BY SOURCE SECURE DATA UNIT OF THE ORIGINATOR AND CAN BE INTERPRETED ONLY BY THE SECURE DATA UNIT. 
+				------------------------------- 
+					SEE DUI EXPLANATION 		0 THROUGH 65535
+FIGURE 5.2-1. J Series Header Word Format (Sheet 3, 4, 5, 6 of 6)
+
+5.3 MESSAGE CONSTRUCTION
+
+5.3.1 Link 16 messages are functionally-oriented, variable-length strings of 75-bit words. A message is started by an initial word, which may then be followed by extension words to transmit logically associated data field groupings longer than can be accommodated by the initial word. The extension words may be followed by continuation words, which supply supplemental information that is normally transmitted on an infrequent basis. There may be multiple Link 16 messages, varying in function, within a time slot. However, each message shall reside and be capable of interpretation totally within a single time slot.
+
+5.3.2 WORD CONSTRUCTION
+5.3.2.1 The following paragraphs describe Link 16 word construction.
+
+5.3.3 GENERAL
+5.3.3.1 Each 75-bit word contains a 5-bit Parity field. For a description of Parity encoding, see the JTIDS/MIDS Technical Characteristics, Section 3, Terms and Definitions. Each 75-bit word is uniquely identified as an initial word, an extension word or a continuation word. For this identification, each word contains a 2-bit Word Format field. The Word Format field is interpreted as follows:
+	a. WF = 002 Indicates an initial word.
+	b. WF = l02 Indicates an extension word.
+	c. WF = 0l2 Indicates a continuation word.
+	d. WF = ll2 Indicates a variable message format word.
+
+5.3.4 INITIAL WORD
+5.3.4.1 Figure 5.3-1 shows the format for an initial word. Each initial word contains a 5-bit Label, Link 16 field; a 3-bit Sublabel, Link 16 field; and a 3-bit Message Length Indicator (MLI) field. Each combination of a specific label and sublabel defines one of 256 possible combinations.
+
+5.3.4.2 The MLI field indicates the total number of extension and/or continuation words that follow the initial word. This is provided as an additional aid to maintaining orientation in the word stream and to speed discarding filtered messages. See also Paragraph 5.5.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+: 74 73 72 71 70 : 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 : 12 11 10  : 09 08 07 : 06 05 04 03 02 : 01 00  :
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:                :                                                                                                                                                                            : MESSAGE   : SUBLABEL :                :        :
+:     PARITY     :                                                              INFORMATION FIELDS                                                                                            : LENGTH    : LINK 16  : LABEL,LINK 16  : WORD   :
+:                :                                                                                                                                                                            : INDICATOR :          :                : FORMAT :
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:        5       :                                                                      57                                                                                                    :     3     :     3    :        5       :    2   :  
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Figure 5.3-1. J Series Initial Word Format
+
+5.3.5 EXTENSION WORD
+5.3.5.1 Figure 5.3-2 shows the format for an extension word. 
+Extension words are defined for an initial word when the length of the data field groupings logically transmitted as an entity exceeds the space available in the initial word. Since the data fields in the extension words are defined and interpreted solely with respect to the label and sublabel field combination in the initial word, they must be transmitted in serial order. For example, if the jth extension word of the n extension words defined for a given initial word is to be transmitted, all "i" words, i is less than j, must precede the jth word. If any extension word is to be repeated, it must be the last extension word for that message.
+
+5.3.6 CONTINUATION WORD
+5.3.6.1 Figure 5.3-3 shows the format for a continuation word.  Continuation words provide additional amplifying information in support of the initial word and extension words. Continuation words are transmitted after the last extension word, or immediately after the initial word if no extension words are transmitted. Each continuation word contains a 5-bit Continuation Word Label field used to uniquely identify the continuation word. The Continuation Word Label field can be defined for values from 0 through 3l, allowing for a maximum of 32 continuation words for any sublabel. Unlike extension words, continuation words can be sent in any order unless otherwise specified in individual message transmission rules.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+: 74 73 72 71 70 : 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 09 08 07 06 05 04 03 02 : 01 00  :
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:                :                                                                                                                                                                                                             :        :
+:     PARITY     :                                                              INFORMATION FIELDS                                                                                                                             : WORD   :
+:                :                                                                                                                                                                                                             : FORMAT :
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:        5       :                                                                      68                                                                                                                                     :    2   :  
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Figure 5.3-2. J Series Extension Word Format
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+: 74 73 72 71 70 : 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 09 08 07 : 06 05 04 03 02 : 01 00  :
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:                :                                                                                                                                                                                              :  CONTINUATION  :        :
+:     PARITY     :                                                              INFORMATION FIELDS                                                                                                              :      WORD      :  WORD  :
+:                :                                                                                                                                                                                              :      LABEL     : FORMAT :
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:        5       :                                                                      63                                                                                                                      :      5         :    2   :  
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Figure 5.3-3. J Series Continuation Word Format
+
+
+5.4 MESSAGE AND WORD NUMBERING CONVENTION
+5.4.1 The following numbering convention is defined to identify the J series fixed format messages and words.
+
+5.4.2 MESSAGE
+5.4.2.1 Jn.m is the numbering convention for a Link 16 message, i.e., a combination of one initial word, and any legal combination of extension and continuation words, where n is the Label, Link 16 field value and 0 is less than or equal to n is less than or equal to 31, and m is the Sublabel, Link 16 field value and 0 is less than or equal to m is less than or equal to 7.
+	a. For example, J3.2 is the numbering convention for the Air Track message.
+	b. Jn.m(y) is the numbering convention for certain messages containing a sub-sublabel. This convention is used for the J27 series of national messages and will be used for all other national message series to be assigned in the future. These national messages contain a 5-bit sub-sublabel (represented by "y" above) which results in 32 national messages within each sublabel, i.e., 0 is less than or equal to y is less than or equal to 31. For example, J27.1 (0) is the numbering convention for the Japan National 1 message.
+
+5.4.3 BASIC MESSAGE
+5.4.3.1 Jn.mB is the numbering convention for a Link 16 Basic message, i.e., a combination of an initial word and all extension words that make up a minimum-length message as defined in the T/R rules for the message.
+5.4.3.2 For example, J3.2B is the numbering convention for the Air Track Basic message consisting of the J3.2I Air Track initial word and the J3.2E0 Air Track extension word.
+
+5.4.4 INITIAL WORD
+5.4.4.1 Jn.mI is the numbering convention for the initial word for a Jn.m message.
+5.4.4.2 For example, J3.2I is the numbering convention for the initial word for the J3.2 Air Track message.
+
+5.4.5 EXTENSION WORD
+5.4.5.1 Jn.mEx is the numbering convention for the extension word x for the Jn.m message, where x is a decimal number from 0 through the limitation imposed by the MLI field.
+5.4.5.2 For example, J3.2E0 is the numbering convention for the first extension word for the J3.2 Air Track message.
+
+5.4.6 CONTINUATION WORD
+5.4.6.1 Jn.mCx is the numbering convention for the continuation word x for the Jn.m message, where x is a number from 0 through 31.
+5.4.6.2 For example, J3.2C1 is the number of the first continuation word for the J3.2 Air Track message. (NOTE: Continuation word number 0 is not currently defined for any messages.  Therefore, continuation word number 1 is actually the first defined continuation word of all currently defined messages.)
+
+5.4.7 LINK 16 MESSAGE LABELING SCHEME
+5.4.7.1 Table 5.4-1 lists the Link 16 message titles under this labeling scheme.
+
+TABLE 5.4-1. JTIDS/MIDS Messages (Sheet 1 of 3)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+: jn.m                  m :       0        :       1       :       2       :       3         :       4       :       5        :       6        :       7       :
+: n                       :                :               :               :                 :               :                :                :               :
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+: 0 - SYSTEM INFORMATION  :                :               :               :                 :               :                :                :               :
+: EXCHANGE AND NETWORK    : INITIAL ENTRY  :      TEST     :  NETWORK TIME :   TIME SLOT     :  RADIO RELAY  : REPROMULGATION : COMMUNICATIONS :   TIME SLOT   :
+: MANAGEMENT              :                :               :     UPDATE    :  ASSIGNMENT     :    CONTROL    :      RELAY     :                :  REALLOCATION :
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+: 1 - SYSTEM INFORMATION  :                :               :               :                 :               :                :    NEEDLINE    :               :
+: EXCHANGE AND NETWORK    : CONNECTIVITY   : CONNECTIVITY  :     ROUTE     : ACKNOWLEDGEMENT :  COMMUNICANT  :   NET CONTROL  : PARTICIPATION  :               :
+: MANAGEMENT              : INTERROGATION  :    STATUS     : ESTABLISHMENT :                 :     STATUS    : INITIALIZATION :     GROUP      :               :
+:                         :                :               :               :                 :               :                :   ASSIGNMENT   :               :
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+: 2 - PRECISE PARTICIPANT :                :               :               :                 :               :                :                :               :
+:     LOCATION AND        :    INDIRECT    :               :      AIR      :     SURFACE     :  SUBSURFACE   :   LAND POINT   :   LAND TRACK   :               :
+:   IDENTIFICATION (PPLI) : INTERFACE UNIT :               :               :                 :               :                :                :               :
+
+
+3 - SURVEILLANCE REFERENCE 
+POINT EMERGENCY POINT AIR TRACK SURFACE TRACK SUBSURFACE 
+TRACK
+LAND 
+POINT/TRACK SPACE TRACK
+ELECTRONIC
+WARFARE
+PRODUCT
+INFORMATION
+4 - UNDEFINED
+5 - ANTISUBMARINE WARFARE ACOUSTIC
+BEARING/RANGE
+6 - AMPLIFICATION AMPLIFICATION
+INFORMATION
+PERSONNEL 
+RECOVERY 
+AMPLIFICATION
+7 - INFORMATION
+ MANAGEMENT
+TRACK
+MANAGEMENT
+DATA UPDATE
+REQUEST CORRELATION POINTER TRACK 
+IDENTIFIER
+IFF/SIF
+MANAGEMENT
+FILTER 
+MANAGEMENT
+NOT USED BY 
+US
+ASSOCIATION
+8 - INFORMATION
+ MANAGEMENT
+UNIT 
+DESIGNATOR
+NOT USED BY US
+MISSION
+CORRELATOR
+CHANGE
+NOT USED BY US
+9 - WEAPONS COORDINATION
+ AND MANAGEMENT COMMAND ENGAGEMENT
+COORDINATION
+ECCM 
+COORDINATION
+NOT USED BY 
+US
+10 - WEAPONS COORDINATION
+ AND MANAGEMENT
+ENGAGEMENT
+STATUS HANDOVER CONTROLLING
+UNIT REPORT PAIRING
+11 - NETWORK ENABLED 
+WEAPONS CONTROL AND 
+MANAGEMENT
+WEAPON 
+RESPONSE/ 
+STATUS
+WEAPON 
+DIRECTIVE
+WEAPON 
+COORDINATION
+12 - CONTROL MISSION
+ASSIGNMENT VECTOR
+PRECISION
+AIRCRAFT
+DIRECTION
+FLIGHT PATH CONTROLLING
+UNIT CHANGE
+TARGET/TRACK
+CORRELATION TARGET SORTING TARGET 
+BEARING
+13 - PLATFORM AND SYSTEM
+ STATUS AIRFIELD AIR SURFACE SUBSURFACE LAND
+MIL
+-STD
+-6016G
+5-18
+TABLE 5.4-1. JTIDS/MIDS Messages (Sheet 2 of 3)
+jn.m m
+n
+0 1 2 3 4 5 6 7
+14 - ELECTRONIC WARFARE PARAMETRIC
+INFORMATION
+EW CONTROL
+COORDINATION EA ENGAGEMENT
+15 - THREAT WARNING THREAT WARNING
+16 - MISSION SUPPORT IMAGE TRANSFER ROUTE CHANGE
+GLOBAL AREA 
+REFERENCE 
+SYSTEM
+17 - MISCELLANEOUS WEATHER OVER
+TARGET
+18-26 - UNDEFINED
+27 - NATIONAL USE (0)-JP NATIONAL 
+1
+(1)-SZ NATIONAL 
+1
+(2)-TU NATIONAL 
+1 (ARMY)
+(3)-TU NATIONAL 
+2 (NAVY)
+(4)-TU NATIONAL 
+3 (AIR FORCE)
+(5)-PL NATIONAL 
+1 (ARMY)
+(6)-PL NATIONAL 
+2 (ARMY)
+(7)-PL NATIONAL 
+3 (NAVY)
+(8)-PL NATIONAL 
+4 (NAVY)
+(9)-PL NATIONAL 
+5 (AIR FORCE)
+(10)-PL 
+NATIONAL 6 (AIR 
+FORCE)
+(11)-FIN 
+NATIONAL 1
+(12)-GRC 
+NATIONAL 1
+MIL
+-STD
+-6016G
+5-19
+TABLE 5.4-1. JTIDS/MIDS Messages (Sheet 3 of 3)
+jn.m m
+n
+0 1 2 3 4 5 6 7
+(13)-GRC 
+NATIONAL 2
+(14)-GRC 
+NATIONAL 3
+(15)-HUN 
+NATIONAL 1
+(16)-HUN 
+NATIONAL 2
+(17) - ISR 
+NATIONAL 1
+(18) - ISR 
+NATIONAL 2
+(19) - ARE 
+NATIONAL 1
+(20) - ARE 
+NATIONAL 2
+(21) - ARE 
+NATIONAL 3
+(22) - KOR
+NATIONAL 1
+(23) - KOR
+NATIONAL 2
+(24) - KOR
+NATIONAL 3
+(25) - SWE
+NATIONAL 1
+(26) - QAT
+NATIONAL 1
+.
+.
+(31)-UNDEFINED
+28 - NATIONAL USE
+U.S.
+NATIONAL 1 
+(ARMY)
+U.S.
+NATIONAL 2 
+(NAVY)
+U.S.
+NATIONAL 3
+(AIR FORCE)
+U.S.
+NATIONAL 4 
+(MARINE CORPS)
+FR
+NATIONAL 1
+FR
+NATIONAL 2
+U.S.
+NATIONAL 5
+(NSA)
+UK
+NATIONAL 1
+29 - NATIONAL USE RESERVED TARGETING 
+INFORMATION
+UK
+NATIONAL 3
+SP
+NATIONAL 1
+SP
+NATIONAL 2
+CA
+NATIONAL
+AU
+NATIONAL
+30 - NATIONAL USE
+GE
+NATIONAL AIR 
+FORCE
+GE
+NATIONAL 2
+IT
+NATIONAL 1
+IT
+NATIONAL 2
+IT
+NATIONAL 3
+FR
+NATIONAL 3
+(ARMY)
+FR
+NATIONAL 4
+(AIR FORCE)
+FR
+NATIONAL 5 
+(NAVY)
+31 - MISCELLANEOUS
+OVER-THE-AIR
+REKEYING
+MANAGEMENT
+OVER-THE-AIR
+REKEYING
+NO 
+STATEMENT
+RTT - ROUND-TRIP-TIMING
+RTT 
+INTERROGATION
+ADDRESSED
+RTT
+INTERROGATION
+BROADCAST
+RTT REPLY
+MIL
+-STD
+-6016G
+5-20
+5.5 MESSAGE LENGTH INDICATOR FIELD AND MESSAGE LENGTH
+5.5.1 MESSAGE LENGTH INDICATOR FIELD
+5.5.1.1 The MLI field in the initial word indicates the number 
+of extension plus continuation words that follow the initial word. 
+For Link 16 messages currently defined, the MLI field is three bits in 
+length, allowing from zero through seven "following" words.
+5.5.2 MESSAGE LENGTH
+5.5.2.1 A time slot carries three words when the terminal is 
+operating a Standard DP message packing structure; six words with a 
+Packed-2 structure, and twelve words with Packed-4. The message 
+construction rules (see Paragraph 5.3) state that each J-Series 
+message must be capable of interpretation totally within a single time 
+slot. Thus, the maximum possible length of message is three words in 
+Standard DP (packing structure limit), six words in Packed-2 (packing 
+structure limit), and eight words in Packed-4 (MLI field limit). In 
+this latter case, the MLI would be set to value 7 to indicate seven 
+additional extension and/or continuation words following the initial 
+word.
+MIL-STD-6016G
+5-21
+5.6 CODING CONVENTIONS
+5.6.1 To minimize incompatibilities in the interface design and 
+programming, certain coding conventions have been adopted and are 
+described in the following paragraphs.
+5.6.2 POSITION INFORMATION
+5.6.2.1 The position of a track or point shall be expressed in 
+latitude and longitude, as defined by the WGS-84, with geoid 
+parameters 6,378,137 meters for equatorial radius and 1/298.257223563 
+for polar flattening. Position shall normally be sent extrapolated to 
+the instant of transmission, except for non-real-time tracks, 
+ballistic missile tracks, and entities reported in J11.X messages.
+5.6.3 VERTICAL POSITION MEASUREMENT
+5.6.3.1 The vertical measurement of the position of a track, 
+whether expressed as altitude, elevation, height, etc., shall be 
+reported as measured radially outward from the center of the earth to 
+the track as a positive quantity in units of feet above mean sea level 
+(MSL), where the MSL datum is defined by the WGS-84 Geoid, unless 
+otherwise stated, e.g., above ground level (AGL) or height above 
+ellipsoid (HAE).
+5.6.3.2 WGS-84 defines two elevation references: MSL and HAE. 
+MSL is the earth's gravitational equipotential surface coinciding with 
+sea level which varies with the mass distribution of the earth. In 
+other words, the force of gravity at every point on the MSL geoid is 
+the same as that at the average ocean level. HAE references an 
+ellipsoid which is the best fit geometric representation of the MSL 
+geoid. Because the MSL geoid is not a uniform and regular surface, 
+the differences between MSL and HAE vary around the earth. The 
+magnitude of the differences between MSL and HAE range from -345 feet 
+to 279 feet (negative values indicating that MSL is above the
+MIL-STD-6016G
+5-22
+reference ellipsoid at that location). HAE Adjustment and HAE 
+Adjustment 1 provide a means to report the offset between MSL and HAE 
+for the location specified in a message so that the vertical 
+measurement can be referenced to HAE as well as MSL. When the 
+elevation is below mean sea level, HAE Adjustment and HAE Adjustment 1 
+provide a means to report the vertical measurement directly referenced 
+to HAE, rather than as an offset from MSL.
+5.6.4 VELOCITY INFORMATION
+5.6.4.1 Velocity information shall be transmitted as course and 
+speed. Course shall be expressed in degrees referenced to true north 
+(true north and geographic north are considered synonymous) unless 
+otherwise stated. Speed is defined as the rate of change of position 
+over the ground and is expressed in data miles per hour unless 
+otherwise stated.
+5.6.5 COURSE/BEARING INFORMATION
+5.6.5.1 All Course/Bearings shall be in degrees, referenced to 
+true north. Any conversion to magnetic north or other relative values 
+shall be performed by the host systems.
+5.6.6 TIME INFORMATION
+5.6.6.1 Ideally, a JU establishes network time using GPS derived 
+Coordinated Universal Time (UTC)/U.S. Naval Observatory (USNO) Time as 
+the preferred time source to set its terminal clock. Any required 
+conversion to local time shall be performed by the host systems.
+5.6.7 DATA FIELD CODING
+5.6.7.1 The data fields used in the interface are of two types, 
+logical and numeric. Logical data fields are fields whose bit 
+configurations represent logical values as described in the applicable
+MIL-STD-6016G
+5-23
+message definition. Numeric data fields are multi-bit fields whose 
+bit configurations represent actual numeric values. The least 
+significant bit value and the value range are described in the 
+applicable message definition. Unless otherwise specified, all data 
+fields are read from left to right (higher bit number to lower bit 
+number), with the most significant bit on the left.
+5.6.8 SPARE FIELDS
+5.6.8.1 Spare fields are included in some messages. When 
+transmitted these spare fields will be encoded as zero and shall not 
+be processed upon receipt. Messages shall not be discarded upon 
+receipt of non-zero spare fields.
+5.6.8.2 Disused fields are spare fields that previously had a 
+valid meaning. When transmitted, Disused fields shall be encoded as 0 
+and shall not be processed upon receipt. Messages shall not be 
+discarded upon receipt of a non-zero Disused field.
+5.6.8.3 One or more of the bits of a Disused field cannot be 
+renamed without considering coordinated implementation. Once one or 
+more bits of a Disused field have been so reused the remaining bits, 
+if any, shall be renamed as a Spare field or, if not contiguous, Spare 
+fields.
+5.6.9 NEGATIVE VALUES
+5.6.9.1 A negative number shall be coded and transmitted with 
+twos complement coding and identified by the number one in the most 
+significant bit of the data field. Conversion to ones complement 
+coding, when required by a TDS, shall be provided by the JTIDS/MIDS 
+terminal.
+MIL-STD-6016G
+5-24
+5.6.10 PROTECTIVE CODING
+5.6.10.1 All interface units shall design and program in such a 
+manner that they are protected in case they receive a message 
+containing illegal values. Messages shall not be discarded upon 
+receipt of undefined or disused values of defined fields, except in 
+the case of values which if received would render the message 
+unusable. When messages are received containing undefined or disused 
+values of defined fields, and other data fields of the message could 
+be processed and interpreted properly, the field containing the 
+undefined or disused values shall be processed as the No Statement or 
+default value, and the other fields of the message shall be processed 
+as implemented.
+5.6.11 FIELDS NOT IMPLEMENTED
+5.6.11.1 IUs that have not implemented any values of a field 
+shall transmit a No Statement value for that field or an equivalent 
+value which is specified in Section 5, Part 4, Transmit Tables.
+5.6.12 NO STATEMENT/NO DATA
+5.6.12.1 The no statement/no data value shall be coded as the 
+zero value except when zero is a valid numeric value. In this case 
+the no statement/no data value shall be the maximum value possible for 
+that field. In each case where the data item (DI) meaning is No 
+Statement or No Statement combined with other DI meanings, such as 
+Unknown, Pending, Other, Estimated, General, etc., the DI indicates 
+that no data are being reported for the affected data element.
+MIL-STD-6016G
+5-25
+5.7 MESSAGE DESCRIPTION DOCUMENTATION
+5.7.1 Table 5.7-1 lists the Link 16 fixed format messages. The 
+messages are described by the following:
+a. Word Applicability Table. The Word Applicability Table lists 
+the valid initial words for each Label, Link 16 value and the valid 
+extension and continuation words for each Sublabel, Link 16 value 
+within that label. A separate table is provided for each Label, Link 
+16 value.
+b. Message Summary. The message summary contains the message 
+purpose and provides a list of the data elements comprising each word 
+in the message. The message summary also lists the bit length of each 
+data element. A separate message summary is provided for each Link 16 
+message defined by a valid combination of label and sublabel.
+c. Implementation Requirements. The implementation requirements 
+define the information that must be exchanged in order to 
+interoperate. Separate implementation requirements are provided for 
+each Link 16 message by function in Appendix A, Implementation 
+Requirements.
+d. Link 16 Word Presentation. The format and content of each 
+initial, extension, and continuation word comprising a Link 16 message 
+is defined by a word map; a word description; word notes, when 
+applicable; and field coding. The word map shows the field 
+construction for each word. The word description provides, for each 
+data element within the word, a Data Field Identifier (DFI)/Data Use 
+Identifier (DUI) reference number; a field descriptor when applicable; 
+bit positions of the data element within the message; length of the 
+data element, in bits; and any applicable resolution and coding. 
+Notes are provided when necessary to further explain data elements and 
+message construction. Field coding provides the definition of each 
+value of each data element.
+MIL-STD-6016G
+5-26
+TABLE 5.7-1. List of Link 16 Messages (Sheet 1 of 5)
+NUMBER TITLE
+SYSTEM INFORMATION EXCHANGE AND NETWORK MANAGEMENT
+J0.0 Initial Entry Message
+J0.1 Test Message
+J0.2 Network Time Update Message
+J0.3 Time Slot Assignment Message
+J0.4 Radio Relay Control Message
+J0.5 Repromulgation Relay Message (Note 1)
+J0.6 Communications Control Message
+J0.7 Time Slot Reallocation Message
+J1.0 Connectivity Interrogation Message (Note 1)
+J1.1 Connectivity Status Message
+J1.2 Route Establishment Message (Note 1)
+J1.3 Acknowledgement Message (Note 1)
+J1.4 Communicant Status Message (Note 1)
+J1.5 Net Control Initialization Message (Note 1)
+J1.6 Needline Participation Group Assignment Message (Note 1)
+PRECISE PARTICIPANT LOCATION AND IDENTIFICATION (PPLI)
+J2.0 Indirect Interface Unit PPLI Message
+J2.2 Air PPLI Message
+J2.3 Surface PPLI Message
+J2.4 Subsurface PPLI Message
+J2.5 Land Point PPLI Message
+J2.6 Land Track PPLI Message
+SURVEILLANCE
+J3.0 Reference Point Message
+J3.1 Emergency Point Message
+J3.2 Air Track Message
+J3.3 Surface Track Message
+J3.4 Subsurface Track Message
+J3.5 Land Point/Track Message
+J3.6 Space Track Message
+J3.7 Electronic Warfare Product Information Message
+MIL-STD-6016G
+5-27
+TABLE 5.7-1. List of Link 16 Messages (Sheet 2 of 5)
+NUMBER TITLE
+ANTISUBMARINE WARFARE
+J5.4 Acoustic Bearing/Range Message
+AMPLIFICATION
+J6.0 Amplification Message
+J6.1 Personnel Recovery Amplification
+INFORMATION MANAGEMENT
+J7.0 Track Management Message
+J7.1 Data Update Request Message
+J7.2 Correlation Message
+J7.3 Pointer Message
+J7.4 Track Identifier Message
+J7.5 IFF/SIF Management Message
+J7.6 Filter Management Message NOT USED BY US (Note 2)
+J7.7 Association Message
+J8.0 Unit Designator Message NOT USED BY US (Note 2)
+J8.1 Mission Correlator Change Message NOT USED BY US (Note 2)
+WEAPONS COORDINATION AND MANAGEMENT
+J9.0 Command Message
+J9.1 Engagement Coordination
+J9.2 ECCM Coordination Message NOT USED BY US (Note 2)
+J10.2 Engagement Status Message
+J10.3 Handover Message
+J10.5 Controlling Unit Report Message
+J10.6 Pairing Message
+NETWORK ENABLED WEAPONS CONTROL AND MANAGEMENT
+J11.0 Weapon Response/Status Message
+J11.1 Weapon Directive Message
+J11.2 Weapon Coordination Message
+CONTROL
+J12.0 Mission Assignment Message
+J12.1 Vector Message
+J12.2 Precision Aircraft Direction Message (Note 2)
+MIL-STD-6016G
+5-28
+TABLE 5.7-1. List of Link 16 Messages (Sheet 3 of 5)
+NUMBER TITLE
+J12.3 Flight Path Message
+J12.4 Controlling Unit Change Message
+J12.5 Target/Track Correlation Message
+J12.6 Target Sorting Message
+J12.7 Target Bearing Message
+PLATFORM AND SYSTEM STATUS
+J13.0 Airfield Status Message
+J13.2 Air Platform and System Status Message
+J13.3 Surface Platform and System Status Message
+J13.4 Subsurface Platform and System Status Message
+J13.5 Land Platform and System Status Message
+ELECTRONIC WARFARE
+J14.0 Parametric Information Message
+J14.2 EW Control and Coordination Message
+J14.3 EA Engagement
+THREAT WARNING
+J15.0 Threat Warning Message
+MISSION SUPPORT
+J16.0 Image Transfer Message
+J16.1 Route Change Message
+J16.2 Global Area Reference System
+MISCELLANEOUS
+J17.0 Weather Over Target
+NATIONAL USE
+J27.1(0) JP National 1 Message (Note 2)
+J27.1(1) SZ National 1 Message (Note 2)
+J27.1(2) TU National 1 (Army) Message (Note 2)
+J27.1(3) TU National 2 (Navy) Message (Note 2)
+J27.1(4) TU National 3 (Air Force) Message (Note 2)
+J27.1(5) PL National 1 (Army) Message (Note 2)
+J27.1(6) PL National 2 (Army) Message (Note 2)
+J27.1(7) PL National 3 (Navy) Message (Note 2)
+MIL-STD-6016G
+5-29
+TABLE 5.7-1. List of Link 16 Messages (Sheet 4 of 5)
+NUMBER TITLE
+J27.1(8) PL National 4 (Navy) Message (Note 2)
+J27.1(9) PL National 5 (Air Force) Message (Note 2)
+J27.1(10) PL National 6 (Air Force) Message (Note 2)
+J27.1(11) FIN National 1 Message (Note 2)
+J27.1(12) GRC National 1 Message (Note 2)
+J27.1(13) GRC National 2 Message (Note 2)
+J27.1(14) GRC National 3 Message (Note 2)
+J27.1(15) HUN National 1 Message (Note 2)
+J27.1(16) HUN National 2 Message (Note 2)
+J27.1(17) ISR National 1 Message (Note 2)
+J27.1(18) ISR National 2 Message (Note 2)
+J27.1(19) ARE National 1 Message (Note 2)
+J27.1(20) ARE National 2 Message (Note 2)
+J27.1(21) ARE National 3 Message (Note 2)
+J27.1(22) KOR National 1 Message (Note 2)
+J27.1(23) KOR National 2 Message (Note 2)
+J27.1(24) KOR National 3 Message (Note 2)
+J27.1(25) SWE National 1 Message (Note 2)
+J27.1(26) QAT National 1 Message (Note 2)
+J28.0 U.S. National 1 (Army) Message (Note 3)
+J28.1 U.S. National 2 (Navy) Message (Note 3)
+J28.2 U.S. National 3 (Air Force) Message (Note 3)
+J28.2(0) Text Message
+J28.3 U.S. National 4 (Marine Corps) Message (Note 3)
+J28.4 FR National 1 (Note 2)
+J28.5 FR National 2 (Note 2)
+J28.6 U.S. National 5 (NSA) Message (Note 3)
+J28.7 UK National 1 Message (Note 2)
+J29.0 Reserved (Note 2)
+J29.1 Targeting Information Message (Note 1)
+J29.2 UK National 3 Message (Note 2)
+J29.3 SP National 1 Message (Note 2)
+MIL-STD-6016G
+5-30
+TABLE 5.7-1. List of Link 16 Messages (Sheet 5 of 5)
+NUMBER TITLE
+J29.4 SP National 2 Message (Note 2)
+J29.5 CA National Message (Note 2)
+J29.7 AU National Message (Note 2)
+J30.0 GE National Air Force (Note 2)
+J30.1 GE National 2 (Note 2)
+J30.2 IT National 1 (Note 2)
+J30.3 IT National 2 (Note 2)
+J30.4 IT National 3 (Note 2)
+J30.5 FR National 3 (Army) (Note 2)
+J30.6 FR National 4 (Air Force) (Note 2)
+J30.7 FR National 5 (Navy) (Note 2)
+MISCELLANEOUS
+J31.0 Over-the-Air Rekeying Management Message
+J31.1 Over-the-Air Rekeying Message
+J31.7 No Statement Message (Note 1)
+ROUND-TRIP-TIMING
+RTT-A Round-Trip-Timing Interrogation - Addressed (Note 1)
+RTT-B Round-Trip-Timing Interrogation - Broadcast (Note 1)
+RTT-REPLY Round-Trip-Timing Reply (Note 1)
+Notes: 
+1. Transactions for this message are not contained in this document. 
+There is no requirement for the host systems of JUs to implement this 
+message, however, the message may be transmitted by the terminal.
+2. Transactions for this message are not contained in this document 
+and therefore shall not be implemented by any platform.
+3. Transactions for U.S. proprietary messages may be contained in 
+Appendix Z, available from the applicable service.
+MIL-STD-6016G
+5-31
+5.8 TRANSMISSION INTERVAL AND RECURRENCE RATE NUMBER
+5.8.1 For redundant and periodic messages, Table 5.8-1 shows the 
+relationship between the Recurrence Rate Number (RRN), the desired 
+transmission interval, and the allowable deviation.
+MIL-STD-6016G
+5-32
+TABLE 5.8-1. Time Slot Block Assignments/Recurrence Rate Number
+1
+RECURRENCE
+RATE NUMBER
+(RRN)
+2
+NUMBER OF 
+AVAILABLE
+TIME SLOTS
+3
+INTERVAL
+BETWEEN
+TIME SLOTS
+4
+TIME INTERVAL
+BETWEEN TIME SLOTS
+5
+TOLERANCE
+INTERVAL
+6
+TIME SLOTS
+PER UNIT
+TIME
+PER EPOCH (3 x 2(15-RRN)) (7.8125 MILLISECS X
+COL 3)
+0 1 98,304 12.8 MIN 9.6-12.8 MIN 0.078125/MIN
+1 2 49,152 6.4 MIN 4.8-8 MIN 0.15625/MIN
+2 4 24,576 3.2 MIN 2.4-4 MIN 0.3125/MIN
+3 8 12,288 1.6 MIN 1.2-2 MIN 0.625/MIN
+4 16 6,144 48 SECS 36-60 SECS 1.25/MIN
+5 32 3,072 24 SECS 18-30 SECS 2.5/MIN
+6 64 1,536 12 SECS 8-20 SECS 5/MIN
+7 128 768 6 SECS 3-9 SECS 10/MIN
+8 256 384 3 SECS 2-4 SECS 20/MIN
+9 512 192 1.5 SECS 1-2 SECS 40/MIN
+10 1024 96 750 MSECS 500-1000 MSECS 1.333/SEC
+11 2048 48 375 MSECS 250-500 MSECS 2.667/SEC
+12 4096 24 187.5 MSECS 125-250 MSECS 5.333/SEC
+13 8192 12 93.75 MSECS 62-125 MSECS 10.667/SEC
+14 16384 6 46.875 MSECS 31-62 MSECS 21.333/SEC
+15 32768 3 23.4375 MSECS 15-31 MSECS 42.667/SEC
+MIL
+-STD
+-6016G
+5-393
+5.9 MESSAGE PRIORITY SCHEME
+5.9.1 Link 16 messages transmitted by the JTIDS/MIDS terminal 
+are generated both by the terminal and by the host unit's TDS. Both 
+of these sources generate certain messages in accordance with specific 
+transmission rules. In the event that there are more messages 
+eligible for transmission than can be accommodated within an allocated 
+time slot, a priority scheme is required. This priority code shall be 
+assigned by the host system to each category of message type generated 
+for transmission. Message priorities shall be set as indicated in 
+Table 3.1-2, Terminal Input Message Information.
+5.9.1.1 The assignment of priority codes to different message 
+types is dependent on host integration options. Higher priority codes 
+shall not be allocated to message types containing changes of data or 
+originated in response to a Data Update Request compared to the 
+priority code allocated to the same message type for routine 
+reporting. This will prevent the reporting of changed data for an 
+entity from "queue jumping" the reporting of old data for the same 
+entity which would result in unnecessary changes of old data by 
+receiving JUs. The exception to this is a track report of a change of 
+Identity to or from Hostile, which will always have a High priority.
+5.9.1.1.1 The host system message priorities shall be in 
+accordance with the relative priorities allocated to each message type 
+in Table 3.1-2 and as follows:
+a. If the host system has to delay the processing and message 
+generation of one message type due to the concurrent processing and 
+message generation of another type, then the processing of the message 
+type with the higher priority shall take precedence.
+b. If the host system has to delay the processing and message 
+generation of one message type due to the concurrent processing and 
+message generation of a message type of the same priority level, then
+MIL-STD-6016G
+5-34
+the processing and message generation of the message which has been 
+waiting longest shall have precedence.
+5.9.1.2 The relative priority levels in Table 3.1-2 are given as 
+High, Medium or Low and are intended to indicate the priority 
+philosophy to be adopted.
+5.9.1.2.1 Some message types are generated as a result of a 
+cyclic timer of defined period. If the required rate of generation of 
+cyclically generated message types in a NPG would result in the total 
+number of messages required for transmission in that NPG exceeding the 
+number of available timeslots assigned to that NPG, then the rate of 
+generation of these message types in that NPG shall be reduced to the 
+maximum level which just allows all messages for that NPG to be 
+transmitted. C2 JU operators may be alerted if the reduction in the 
+rate of generation of a cyclically generated message type exceeds 
+twice the normal cyclic rate.
+5.9.1.2.2 C2 JUs may provide operator discretionary capability 
+to superimpose high priority precedence on otherwise medium or low 
+automatic or operator generated transmissions of the messages 
+described below.
+- A J10.2 Engagement Status message being reported by the C2 JU.
+- A J3.X (X = 0-7) or J5.4 message for which the C2 JU has R2.
+All messages of the same priority shall be transmitted in the order 
+generated, i.e., first in/first out (FIFO), except that more recently 
+generated messages may be transmitted when all older messages of the 
+same priority comprise more words than can be accommodated in the 
+space remaining in a time slot.
+MIL-STD-6016G
+5-35
+5.10 HOST INITIALIZATION VARIABLE PARAMETERS
+5.10.1 Certain data and/or parameters within algorithms are 
+variable. The parameter to be used will be disseminated via the 
+OPTASK LINK. In the absence of direction from the OPTASK LINK, the 
+default value shall be used. Several variable parameters are stated 
+using the form a(b-c,d), where a is equal to the default value, b and 
+c are equal to the lower and upper bounds of the variable, and d is 
+equal to the increments by which the parameter may be changed. Some 
+examples are the ∆t used in the Ballistic Missile Track Quality 
+algorithm and the variable TQ value for Ballistic Missile Reporting 
+Responsibility rules. An example of variable parameters not stated 
+using the a(b-c,d) form is the Operational Commander defined values.
