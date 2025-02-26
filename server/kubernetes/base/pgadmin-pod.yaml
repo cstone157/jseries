@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: pgadmin
+  name: pgadmin
+  namespace: jseries
+spec:
+  containers:
+  - name: pgadmin
+    image: dpage/pgadmin4:9.0.0
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 1
+        memory: 1Gi
+      limits:
+        cpu: 2
+        memory: 8Gi
+    env:
+    - name: PGADMIN_DEFAULT_EMAIL
+      value: user@user.org
+    - name: PGADMIN_DEFAULT_PASSWORD
+      value: password
+    ports:
+    - containerPort: 80
+      name: pgadmin-port
+      protocol: TCP
+  terminationGracePeriodSeconds: 0

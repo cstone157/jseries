@@ -1,0 +1,24 @@
+resources:
+  - jseries.yaml
+  - ollama-pod.yaml
+  - ollama-svc.yaml
+  - postgres-pv.yaml
+  - postgres-pvc.yaml
+  - postgres-pod.yaml
+  - postgres-svc.yaml
+  - pgadmin-pod.yaml
+  - pgadmin-svc.yaml
+  - jseries-ingress.yaml
+#  - webui-deployment.yaml
+#  - webui-service.yaml
+#  - webui-ingress.yaml
+#  - webui-pvc.yaml
+#
+# resources:
+#   - open-webui.yaml
+#   - ollama-service.yaml
+#   - ollama-statefulset.yaml
+#   - webui-deployment.yaml
+#   - webui-service.yaml
+#   - webui-ingress.yaml
+#   - webui-pvc.yaml

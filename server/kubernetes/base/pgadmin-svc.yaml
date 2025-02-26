@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin-svc
+  namespace: jseries
+spec:
+  ports:
+  - name: pgadmin-port
+    port: 80
+    protocol: TCP
+    nodePort: 30200
+  selector:
+    app: pgadmin
+  type: NodePort

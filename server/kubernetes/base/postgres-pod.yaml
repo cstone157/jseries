@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+  namespace: jseries
+spec:
+  containers:
+    - name: postgres
+      image: localhost:5000/postgres
+      imagePullPolicy: IfNotPresent
+      resources:
+        requests:
+          cpu: 2
+          memory: 8Gi
+        limits:
+          cpu: 4
+          memory: 16Gi
+      env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_DB
+          value: postgres
+      ports:
+      - containerPort: 5432
+        name: postgres-port
+        protocol: TCP
+      volumeMounts:
+      - mountPath: /var/lib/postgresql/data
+        name: postgres-pv
+  terminationGracePeriodSeconds: 0
+  volumes:
+  - name: postgres-pv
+    persistentVolumeClaim:
+      claimName: postgres-pvc
