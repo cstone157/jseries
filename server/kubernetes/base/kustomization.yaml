@@ -8,11 +8,12 @@ resources:
   - postgres-svc.yaml
   - pgadmin-pod.yaml
   - pgadmin-svc.yaml
-  - jseries-ingress.yaml
-#  - webui-deployment.yaml
-#  - webui-service.yaml
+  - webui-deployment.yaml
+  - webui-service.yaml
+  - webui-pvc.yaml
 #  - webui-ingress.yaml
-#  - webui-pvc.yaml
+#  - jseries-ingress.yaml
+#
 #
 # resources:
 #   - open-webui.yaml

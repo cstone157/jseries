@@ -12,10 +12,10 @@ spec:
       imagePullPolicy: IfNotPresent
       resources:
         requests:
-          cpu: 2
+          cpu: "1000m"
           memory: 8Gi
         limits:
-          cpu: 4
+          cpu: "2000m"
           memory: 16Gi
       env:
         - name: POSTGRES_USER

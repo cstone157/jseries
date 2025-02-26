@@ -12,10 +12,10 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: 1
+        cpu: "500m"
         memory: 1Gi
       limits:
-        cpu: 2
+        cpu: "1000m"
         memory: 8Gi
     env:
     - name: PGADMIN_DEFAULT_EMAIL

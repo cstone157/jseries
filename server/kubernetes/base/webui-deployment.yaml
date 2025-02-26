@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: open-webui-deployment
-  namespace: open-webui
+#  namespace: open-webui
+  namespace: jseries
 spec:
   replicas: 1
   selector:
